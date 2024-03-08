@@ -2,17 +2,69 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <style>
+      #inputPictureDiv {
+        padding: 5% 0;      
+        width: 50%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      #inputImg {
+        width: inherit        
+      }
+
+      .answerSpan {
+        font-size: xxx-large;
+        font-weight: 900;
+      }
+
+    </style>
     <title>
       지민이의 한글 공부
     </title>
   </head>
   <body>
-    <div id="AAA">AAA</div>
+    <div class="row">
+      <div class="col" id="inputPictureDiv">
+        <img id="inputImg" src="./img/Jurassic_Park_Tyrannosaurus_Rex.webp">
+      </div>      
+    </div>
+    
+    <div class="row" style="padding: 2% 2%;">
+      <div class="col" style="display: flex; justify-content: space-around;">
+        <button style="height:100px; width:50%">
+          <span class="answerSpan">티라노</span>
+        </button>
+      </div>
+      <div class="col" style="display: flex; justify-content: space-around;">
+        <button style="height:100px; width:50%">
+          <span class="answerSpan">카봇</span>
+        </button>
+      </div>
+      <div class="col" style="display: flex; justify-content: space-around;">
+        <button style="height:100px; width:50%">
+          <span class="answerSpan">허지민</span>
+        </button>
+      </div>
+    </div>
   </body>
 </html>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
 <script>
-  document.querySelector("#AAA").addEventListener("click", function(event) {
-    console.log("AAA")
+
+  document.querySelectorAll("button").forEach(function(item, index) {
+    
+    item.addEventListener("click", function(event) {
+      answer = item.children[0].innerText
+      if (answer === "티라노") {
+        document.querySelector("#inputImg").src = "./img/correct.jpg"
+      }
+    })    
   })
+
 </script>
