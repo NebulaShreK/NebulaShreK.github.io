@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      #inputPictureDiv {
+        padding: 5% 0;      
+        width: 50%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      #inputImg {
+        width: inherit        
+      }
+
+      .answerSpan {
+        font-size: xxx-large;
+        font-weight: 900;
+      }
+
+    </style>
+    <title>
+      정민이의 영어 공부
+    </title>
+  </head>
+  <body>
+    <div class="row">
+      <div class="col" id="inputPictureDiv">        
+        <img id="inputImg">
+      </div>      
+    </div>
+    
+    <div class="row" style="padding: 2% 2%;">
+      <div class="col" style="display: flex; justify-content: space-around;">
+        <button style="height:100px; width:70%">
+          <span class="answerSpan" index="0"></span>
+        </button>
+      </div>
+      <div class="col" style="display: flex; justify-content: space-around;">
+        <button style="height:100px; width:70%">
+          <span class="answerSpan" index="1"></span>
+        </button>
+      </div>
+      <div class="col" style="display: flex; justify-content: space-around;">
+        <button style="height:100px; width:70%">
+          <span class="answerSpan" index="2"></span>
+        </button>
+      </div>
+      <div class="col" style="display: flex; justify-content: space-around;">
+        <button style="height:100px; width:70%">
+          <span class="answerSpan" index="3"></span>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+<script>
+
+let problem = [
+  "가오리",
+  "거미",
+  "나비",
+  "사자",
+  "호랑이"
+]
+;
+let correctAnswer;
+
+async function loadData() {
+  try {
+    // 상대 경로로 JSON 파일 요청
+    const response = await fetch('./data.json'); 
+    
+    if (!response.ok) {
+      throw new Error(`HTTP 오류! 상태코드: ${response.status}`);
+    }
+    
+    // JSON 데이터 파싱
+    problem = await response.json();
+    // console.log(data); // 불러온 데이터 확인
+    
+  } catch (error) {
+    console.error("데이터를 불러오는 중 오류 발생:", error);
+  }
+}
+
+</script>
+
+<script>
+
+  function shuffle(array) {
+    array.sort(() => Math.random() - 0.5);
+  }
+
+  function showProblem(problem) {
+    var num = problem.length
+
+    var answers = []
+    var answerNum = Math.floor(Math.random() * num)
+
+    correctAnswer = problem[answerNum]
+    answers.push(correctAnswer)
+
+    while (answers.length < 4) {
+      n = Math.floor(Math.random() * num)
+      if (n !== answerNum) {
+        answers.push(problem[n])
+      }
+    }
+    
+    var buttonNum = [...Array(4)].map(function(value, index) {return index})
+    shuffle(buttonNum)
+
+    document.querySelectorAll("span.answerSpan").forEach(function(span, index) {
+      span.innerText = answers[buttonNum[index]]
+    })
+
+    document.querySelector("#inputImg").src = "./img/korea/" + correctAnswer + ".jpg"
+  }  
+  
+  document.querySelectorAll("button").forEach(function(item, index) {
+    
+     item.addEventListener("click", function(event) {
+       answer = item.children[0].innerText
+       if (answer === correctAnswer) {
+
+        document.querySelector("#inputImg").src = "./correct.png"
+
+        const promise = new Promise((resolve, reject) =>
+          setTimeout(() => {
+            showProblem(problem)
+            resolve(1)
+          }, 1000)
+        )
+       }
+     })    
+   })
+
+  loadData().then(result => {
+      showProblem(problem)
+    }
+   )
+
+</script>
