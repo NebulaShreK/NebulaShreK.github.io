@@ -63,20 +63,13 @@
 
 <script>
 
-let problem = [
-  "가오리",
-  "거미",
-  "나비",
-  "사자",
-  "호랑이"
-]
-;
+let problem;
 let correctAnswer;
 
 async function loadData() {
   try {
     // 상대 경로로 JSON 파일 요청
-    const response = await fetch('./data.json'); 
+    const response = await fetch('./korean_data.json'); 
     
     if (!response.ok) {
       throw new Error(`HTTP 오류! 상태코드: ${response.status}`);
