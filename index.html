@@ -83,8 +83,6 @@ async function loadData() {
   }
 }
 
-loadData()
-
 </script>
 
 <script>
@@ -117,8 +115,6 @@ loadData()
 
     document.querySelector("#inputImg").src = "./english/" + correctAnswer + ".jpg"
   }  
-
-  showProblem(problem)
   
   document.querySelectorAll("button").forEach(function(item, index) {
     
@@ -137,5 +133,10 @@ loadData()
        }
      })    
    })
+
+  loadData().then(result => {
+      showProblem(problem)
+    }
+   )
 
 </script>
