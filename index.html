@@ -99,7 +99,7 @@ async function loadData() {
     var answerNum = Math.floor(Math.random() * num)
 
     correctAnswer = problem[answerNum]
-    answers.push(problem[correctAnswer])
+    answers.push(correctAnswer)
 
     while (answers.length < 4) {
       n = Math.floor(Math.random() * num)
