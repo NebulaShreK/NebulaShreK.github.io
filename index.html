@@ -64,6 +64,7 @@
 <script>
 
 let problem;
+let correctAnswer;
 
 async function loadData() {
   try {
@@ -97,7 +98,7 @@ async function loadData() {
     var answers = []
     var answerNum = Math.floor(Math.random() * num)
 
-    var correctAnswer = problem[answerNum]
+    correctAnswer = problem[answerNum]
     answers.push(problem[correctAnswer])
 
     while (answers.length < 4) {
