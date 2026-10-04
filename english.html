@@ -110,6 +110,8 @@ async function loadData() {
     correctAnswer = problem[answerNum]
     answers.push(correctAnswer)
     alreadyAnswers.push(correctAnswer)
+    console.log(answers)
+    console.log(alreadyAnswers)
     if (alreadyAnswers.length == num) {
       alreadyAnswers = [];
     }
@@ -119,6 +121,7 @@ async function loadData() {
       if (n === answerNum) {}
       else if (answers.includes(n)) {}
       else {answers.push(problem[n])}
+      console.log(answers)
     }    
     
     var buttonNum = [...Array(4)].map(function(value, index) {return index})
