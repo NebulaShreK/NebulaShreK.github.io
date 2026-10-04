@@ -96,12 +96,17 @@ async function loadData() {
   function showProblem(problem) {
     var num = problem.length
 
-    var answers = []
-    var answerNum = Math.floor(Math.random() * num)
-
-    while (!alreadyAnswers.includes(answerNum)) {
-      var answerNum = Math.floor(Math.random() * num)
+    var answers = [];
+    var possibleAnswers = [];
+    for (var i; i<num; i++) {
+      if (!alreadyAnswers.includes(i)) {
+        possibleAnswers.push(i)
+      }
     }
+    
+    var selectNum = Math.floor(Math.random() * possibleAnswers.length)l
+    var answerNum = possibleAnswers[selectNum]
+    
     correctAnswer = problem[answerNum]
     answers.push(correctAnswer)
     alreadyAnswers.push(correctAnswer)
