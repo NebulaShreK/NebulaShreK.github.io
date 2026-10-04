@@ -109,7 +109,7 @@ async function loadData() {
     
     correctAnswer = problem[answerNum]
     answers.push(correctAnswer)
-    alreadyAnswers.push(correctAnswer)    
+    alreadyAnswers.push(answerNum)    
     if (alreadyAnswers.length == num) {
       alreadyAnswers = [];
     }
