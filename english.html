@@ -99,9 +99,11 @@ async function loadData() {
     var answers = [];
     var possibleAnswers = [];
     for (var i; i<num; i++) {
-      if (!alreadyAnswers.includes(i)) {
+      console.log(!alreadyAnswers.includes(i))
+      if (!alreadyAnswers.includes(i)) {        
         possibleAnswers.push(i)
       }
+      console.log(!possibleAnswers)
     }
 
     console.log(possibleAnswers)
