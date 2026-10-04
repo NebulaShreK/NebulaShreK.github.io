@@ -66,6 +66,7 @@
 let problem;
 let correctAnswer;
 let alreadyAnswers = [];
+let possibleAnswers = [];
 
 async function loadData() {
   try {
@@ -98,7 +99,7 @@ async function loadData() {
 
     console.log(num)
     var answers = [];
-    var possibleAnswers = [];
+    // var possibleAnswers = [];
     for (let i; i<num; i++) {
       console.log(!alreadyAnswers.includes(i))
       if (!alreadyAnswers.includes(i)) {        
