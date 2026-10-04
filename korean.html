@@ -65,6 +65,7 @@
 
 let problem;
 let correctAnswer;
+let alreadyAnswers = [];
 
 async function loadData() {
   try {
@@ -96,16 +97,28 @@ async function loadData() {
     var num = problem.length
 
     var answers = []
-    var answerNum = Math.floor(Math.random() * num)
+    var possibleAnswers = [];
+    for (let i=0; i<num; i++) {
+      if (!alreadyAnswers.includes(i)) {
+        possibleAnswers.push(i)
+      }
+    }
+
+    var selectNum = Math.floor(Math.random() * possibleAnswers.length)
+    var answerNum = possibleAnswers[selectNum]
 
     correctAnswer = problem[answerNum]
     answers.push(correctAnswer)
+    alreadyAnswers.push(answerNum)
+    if (alreadyAnswers.length == num) {
+      alreadyAnswers = [];
+    }
 
     while (answers.length < 4) {
       n = Math.floor(Math.random() * num)
-      if (n !== answerNum) {
-        answers.push(problem[n])
-      }
+      if (n === answerNum) {}
+      else if (answers.includes(problem[n])) {}
+      else {answers.push(problem[n])}
     }
     
     var buttonNum = [...Array(4)].map(function(value, index) {return index})

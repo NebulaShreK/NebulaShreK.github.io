@@ -131,11 +131,15 @@ async function loadData(level) {
     answerNum = possibleAnswers[selectNum]
     correctAnswer = choices[answerNum]
     answers.push(correctAnswer)
-    
+    alreadyAnswers.push(answerNum)
+    if (alreadyAnswers.length == num) {
+      alreadyAnswers = [];
+    }
+
     while (answers.length < 4) {
       n = Math.floor(Math.random() * num)
       if (n === answerNum) {}
-      else if (answers.includes(n)) {}
+      else if (answers.includes(choices[n])) {}
       else {answers.push(choices[n])}
     }    
     

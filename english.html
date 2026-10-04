@@ -117,8 +117,8 @@ async function loadData() {
     while (answers.length < 4) {
       n = Math.floor(Math.random() * num)
       if (n === answerNum) {}
-      else if (answers.includes(n)) {}
-      else {answers.push(problem[n])}      
+      else if (answers.includes(problem[n])) {}
+      else {answers.push(problem[n])}
     }    
     
     var buttonNum = [...Array(4)].map(function(value, index) {return index})
