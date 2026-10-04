@@ -103,15 +103,17 @@ async function loadData() {
         possibleAnswers.push(i)
       }
     }
-    
+
+    console.log(possibleAnswers)
     var selectNum = Math.floor(Math.random() * possibleAnswers.length)
+    console.log(selectNum)
     var answerNum = possibleAnswers[selectNum]
+    console.log(answerNum)
     
     correctAnswer = problem[answerNum]
+    console.log(correctAnswer)
     answers.push(correctAnswer)
-    alreadyAnswers.push(correctAnswer)
-    console.log(answers)
-    console.log(alreadyAnswers)
+    alreadyAnswers.push(correctAnswer)    
     if (alreadyAnswers.length == num) {
       alreadyAnswers = [];
     }
@@ -120,8 +122,7 @@ async function loadData() {
       n = Math.floor(Math.random() * num)
       if (n === answerNum) {}
       else if (answers.includes(n)) {}
-      else {answers.push(problem[n])}
-      console.log(answers)
+      else {answers.push(problem[n])}      
     }    
     
     var buttonNum = [...Array(4)].map(function(value, index) {return index})
