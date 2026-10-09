@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      #inputPictureDiv {
+        padding: 5% 0;
+        width: 50%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      #inputImg {
+        width: inherit
+      }
+
+      #wordDiv {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        font-size: xxx-large;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+      }
+
+      #blankInput {
+        width: 1.2em;
+        border: none;
+        border-bottom: 6px solid black;
+        outline: none;
+        text-align: center;
+        font-size: inherit;
+        font-weight: inherit;
+        background: transparent;
+        caret-color: transparent;
+      }
+
+      #blankInput.wrong {
+        color: red;
+        border-bottom-color: red;
+      }
+
+      #blankInput.correct {
+        color: green;
+        border-bottom-color: green;
+      }
+
+    </style>
+    <title>
+      정민이의 영어 공부
+    </title>
+  </head>
+  <body>
+    <div class="row">
+      <div class="col" id="inputPictureDiv">
+        <img id="inputImg">
+      </div>
+    </div>
+
+    <div class="row" style="padding: 2% 2%;">
+      <div class="col" id="wordDiv">
+        <span id="wordBefore"></span><input id="blankInput" type="text" maxlength="1" autocomplete="off" autocapitalize="off" spellcheck="false"><span id="wordAfter"></span>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+<script>
+
+let problem;
+let correctAnswer;
+let blankLetter;
+let isWaiting = false;
+let alreadyAnswers = [];
+
+async function loadData() {
+  try {
+    // 상대 경로로 JSON 파일 요청
+    const response = await fetch('./english_data.json');
+
+    if (!response.ok) {
+      throw new Error(`HTTP 오류! 상태코드: ${response.status}`);
+    }
+
+    // JSON 데이터 파싱
+    problem = await response.json();
+
+  } catch (error) {
+    console.error("데이터를 불러오는 중 오류 발생:", error);
+  }
+}
+
+</script>
+
+<script>
+
+  const blankInput = document.querySelector("#blankInput")
+
+  function showProblem(problem) {
+    var num = problem.length
+
+    var possibleAnswers = [];
+    for (let i=0; i<num; i++) {
+      if (!alreadyAnswers.includes(i)) {
+        possibleAnswers.push(i)
+      }
+    }
+
+    var selectNum = Math.floor(Math.random() * possibleAnswers.length)
+    var answerNum = possibleAnswers[selectNum]
+
+    correctAnswer = problem[answerNum]
+    alreadyAnswers.push(answerNum)
+    if (alreadyAnswers.length == num) {
+      alreadyAnswers = [];
+    }
+
+    // 알파벳인 위치만 골라서 그 중 하나를 빈칸으로 만듦 ("T-shirt"의 "-" 제외)
+    var letterIndexes = [];
+    for (let i=0; i<correctAnswer.length; i++) {
+      if (/[a-zA-Z]/.test(correctAnswer[i])) {
+        letterIndexes.push(i)
+      }
+    }
+    var blankIndex = letterIndexes[Math.floor(Math.random() * letterIndexes.length)]
+    blankLetter = correctAnswer[blankIndex]
+
+    document.querySelector("#wordBefore").innerText = correctAnswer.slice(0, blankIndex)
+    document.querySelector("#wordAfter").innerText = correctAnswer.slice(blankIndex + 1)
+
+    blankInput.value = ""
+    blankInput.classList.remove("wrong", "correct")
+    blankInput.disabled = false
+    blankInput.focus()
+
+    document.querySelector("#inputImg").src = "./english/" + correctAnswer + ".jpg"
+    isWaiting = false
+  }
+
+  blankInput.addEventListener("input", function(event) {
+    if (isWaiting) return
+
+    var answer = blankInput.value.slice(-1)
+    blankInput.value = answer
+    if (answer === "") return
+
+    // 대소문자 구분 없이 비교하고, 화면에는 원래 단어의 대소문자로 보여줌
+    if (answer.toLowerCase() === blankLetter.toLowerCase()) {
+      isWaiting = true
+      blankInput.value = blankLetter
+      blankInput.classList.remove("wrong")
+      blankInput.classList.add("correct")
+      blankInput.disabled = true
+
+      setTimeout(() => {
+        document.querySelector("#inputImg").src = "./correct.png"
+      }, 500)
+
+      setTimeout(() => {
+        showProblem(problem)
+      }, 1500)
+    }
+    else {
+      blankInput.classList.add("wrong")
+      setTimeout(() => {
+        if (!isWaiting) {
+          blankInput.value = ""
+          blankInput.classList.remove("wrong")
+        }
+      }, 500)
+    }
+  })
+
+  // 화면 어디를 눌러도 입력칸에 포커스 유지
+  document.addEventListener("click", function() {
+    if (!blankInput.disabled) blankInput.focus()
+  })
+
+  loadData().then(result => {
+      showProblem(problem)
+    }
+   )
+
+</script>
